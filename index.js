@@ -9,6 +9,7 @@ const registerRoute = require('./routes/register');
 const categoryRoute = require('./routes/category');
 const storeRoute = require('./routes/store');
 const favoriteRoute = require('./routes/favorite');
+const cartRoute = require('./routes/cart');
 
 mongoose.connect(
   db,
@@ -30,6 +31,7 @@ app.use('/auth/register', registerRoute);
 app.use('/category', categoryRoute);
 app.use('/store', storeRoute);
 app.use('/favorite', favoriteRoute);
+app.use('/cart', cartRoute);
 
 app.use((req, res, next) => {
   const err = new Error('Not Found');
