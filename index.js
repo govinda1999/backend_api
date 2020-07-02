@@ -8,6 +8,7 @@ const loginRoute = require('./routes/login');
 const registerRoute = require('./routes/register');
 const categoryRoute = require('./routes/category');
 const storeRoute = require('./routes/store');
+const favoriteRoute = require('./routes/favorite');
 
 mongoose.connect(
   db,
@@ -27,7 +28,8 @@ app.use(bodyparser.json());
 app.use('/auth/login', loginRoute);
 app.use('/auth/register', registerRoute);
 app.use('/category', categoryRoute);
-app.use('/store/', storeRoute);
+app.use('/store', storeRoute);
+app.use('/favorite', favoriteRoute);
 
 app.use((req, res, next) => {
   const err = new Error('Not Found');

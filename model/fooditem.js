@@ -5,7 +5,8 @@ const foodItemSchema = mongoose.Schema({
   imageUrl: { type: String, required: true },
   rate: { type: Number, required: true, default: 0 },
   time: { type: Number, required: true },
-  description: { type: String },
+  description: { type: String, required: true },
+  price: { type: Number, required: true },
 });
 
 module.exports = mongoose.model('foods', foodItemSchema);
