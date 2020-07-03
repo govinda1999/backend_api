@@ -59,6 +59,7 @@ router.get('/', async (req, res) => {
   }
 
   Favorite.find({ user: user.user_fk })
+    .populate('item')
     .exec()
     .then((doc) => {
       res.status(200).json({
