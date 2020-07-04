@@ -11,6 +11,7 @@ const storeRoute = require('./routes/store');
 const favoriteRoute = require('./routes/favorite');
 const cartRoute = require('./routes/cart');
 const foodItemRoute = require('./routes/fooditem');
+const foodCategoryRoute = require('./routes/foodcategory');
 
 mongoose.connect(
   db,
@@ -34,6 +35,7 @@ app.use('/store', storeRoute);
 app.use('/favorite', favoriteRoute);
 app.use('/cart', cartRoute);
 app.use('/food', foodItemRoute);
+app.use('/foodcategory', foodCategoryRoute);
 
 app.use((req, res, next) => {
   const err = new Error('Not Found');

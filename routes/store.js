@@ -1,10 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const Token = require('../model/authenticationToken');
-const Store = require('../model/store');
+const Hotel = require('../model/hotel');
 
 router.post('/', async (req, res) => {
-  const { name, imageUrl, latitude, longitude, rate, category } = req.body;
+  const {
+    name,
+    imageUrl,
+    latitude,
+    longitude,
+    rate,
+    address,
+    foodMenu,
+  } = req.body;
   const token = req.headers.authorization;
   if (!token) {
     res.status(403).json({
@@ -20,19 +28,20 @@ router.post('/', async (req, res) => {
     });
   }
 
-  const newStore = new Store({
+  const newHotel = new Hotel({
     name,
     imageUrl,
     latitude,
     longitude,
     rate,
-    category,
+    address,
+    foodMenu,
   });
-  newStore
+  newHotel
     .save()
     .then((doc) => {
       res.status(200).json({
-        message: 'Store Added Successfully',
+        message: 'Hotel Added Successfully',
         response: doc,
         statusCode: 200,
       });
@@ -40,11 +49,11 @@ router.post('/', async (req, res) => {
     .catch((err) => {
       res
         .status(500)
-        .json({ error: 'Error in Adding Store' + err, statusCode: 500 });
+        .json({ error: 'Error in Adding Hotel' + err, statusCode: 500 });
     });
 });
 
-router.get('/:category', async (req, res) => {
+router.get('/', async (req, res) => {
   const token = req.headers.authorization;
   if (!token) {
     res.status(403).json({
@@ -60,19 +69,18 @@ router.get('/:category', async (req, res) => {
       statusCode: 403,
     });
   }
-  const category = req.params.category;
 
-  Store.find({ category })
+  Hotel.find()
     .exec()
     .then((doc) => {
       res.status(200).json({
-        message: 'List of Store',
+        message: 'List of Hotel',
         response: doc,
         statusCode: 200,
       });
     })
     .catch((err) => {
-      res.status(500).json({ error: 'Error in Store' + err, statusCode: 500 });
+      res.status(500).json({ error: 'Error in Hotel' + err, statusCode: 500 });
     });
 });
 
