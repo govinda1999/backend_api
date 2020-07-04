@@ -7,11 +7,12 @@ const port = 5000;
 const loginRoute = require('./routes/login');
 const registerRoute = require('./routes/register');
 const categoryRoute = require('./routes/category');
-const storeRoute = require('./routes/store');
+const hotelRoute = require('./routes/hotel');
 const favoriteRoute = require('./routes/favorite');
 const cartRoute = require('./routes/cart');
 const foodItemRoute = require('./routes/fooditem');
 const foodCategoryRoute = require('./routes/foodcategory');
+const hotelMenuListRoute = require('./routes/hotelmenulist');
 
 mongoose.connect(
   db,
@@ -31,11 +32,12 @@ app.use(bodyparser.json());
 app.use('/auth/login', loginRoute);
 app.use('/auth/register', registerRoute);
 app.use('/category', categoryRoute);
-app.use('/store', storeRoute);
+app.use('/hotel', hotelRoute);
 app.use('/favorite', favoriteRoute);
 app.use('/cart', cartRoute);
 app.use('/food', foodItemRoute);
 app.use('/foodcategory', foodCategoryRoute);
+app.use('/hotelmenuitem', hotelMenuListRoute);
 
 app.use((req, res, next) => {
   const err = new Error('Not Found');
