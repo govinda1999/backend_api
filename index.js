@@ -14,6 +14,7 @@ const foodItemRoute = require('./routes/fooditem');
 const foodCategoryRoute = require('./routes/foodcategory');
 const hotelMenuListRoute = require('./routes/hotelmenulist');
 const orderRoute = require('./routes/order');
+const profileRoute = require('./routes/profile');
 
 mongoose.connect(
   db,
@@ -40,6 +41,7 @@ app.use('/food', foodItemRoute);
 app.use('/foodcategory', foodCategoryRoute);
 app.use('/hotelmenuitem', hotelMenuListRoute);
 app.use('/order', orderRoute);
+app.user('/profile', profileRoute);
 
 app.use((req, res, next) => {
   const err = new Error('Not Found');

@@ -3,12 +3,13 @@ const User = require('../model/userModel');
 const router = express.Router();
 
 router.post('/', (req, res) => {
-  const { email, password, username, mobile } = req.body;
+  const { name, email, password, username, mobile } = req.body;
   const usertemp = new User({
     email,
     password,
     username,
     mobile,
+    name,
   });
 
   usertemp
