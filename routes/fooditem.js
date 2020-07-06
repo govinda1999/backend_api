@@ -61,6 +61,7 @@ router.get('/', async (req, res) => {
   }
 
   Food.find()
+    .populate('category', ['_id', 'name', 'imageUrl'])
     .exec()
     .then((doc) => {
       res.status(200).json({

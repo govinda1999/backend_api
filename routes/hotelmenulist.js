@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const FoodMenuList = require('../model/hotelmenulist');
 const Token = require('../model/authenticationToken');
+const Category = require('../model/foodcategory');
 
 router.post('/', async (req, res) => {
   const { item, hotel } = req.body;
@@ -59,13 +60,15 @@ router.get('/:id', async (req, res) => {
   }
 
   const hotelId = req.params.id;
-  const { category } = req.body.category;
+  const { category } = req.body;
 
   FoodMenuList.find({ hotel: hotelId })
     .populate('item')
     .exec()
     .then((doc) => {
-      const result = doc.filter((each) => each.category === category);
+      const result = doc.filter(
+        (each) => each.item.category + '' === category + ''
+      );
       res.status(200).json({
         message: 'List of Food Item',
         response: result,

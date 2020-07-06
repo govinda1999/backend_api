@@ -8,7 +8,7 @@ const hotelSchema = mongoose.Schema({
   longitude: { type: String, required: true },
   rate: { type: Number, required: true, default: 0.0 },
   address: { type: String, required: true },
-  foodMenu: { type: [mongoose.Schema.Types.ObjectId], ref: FoodCategory },
+  foodMenu: [{ type: mongoose.Schema.Types.ObjectId, ref: FoodCategory }],
 });
 
 module.exports = mongoose.model('hotels', hotelSchema);

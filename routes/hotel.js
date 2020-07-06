@@ -104,6 +104,7 @@ router.get('/:id', async (req, res) => {
   const id = req.params.id;
 
   Hotel.findById(id)
+    .populate('foodMenu', ['_id', 'name', 'imageUrl'])
     .exec()
     .then((doc) => {
       res.status(200).json({
