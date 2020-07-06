@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const FoodMenuList = require('../model/hotelmenulist');
 const Token = require('../model/authenticationToken');
+const Order = require('../model/orders');
+const Cart = require('../model/cart');
 
 router.post('/', async (req, res) => {
-  const { item, hotel } = req.body;
+  const { orderId, status, payment, payment_mode, payment_done } = req.body;
   const token = req.headers.authorization;
   if (!token) {
     res.status(403).json({
@@ -20,28 +21,36 @@ router.post('/', async (req, res) => {
     });
   }
 
-  const newFoodMenuList = new FoodMenuList({
-    item,
-    hotel,
+  let cartItem = await Cart.find({ user: user.user_fk });
+  cartItem = cartItem.map((item) => item.item);
+  await Cart.deleteMany({ user: user.user_fk });
+  const newOrder = new Order({
+    orderId,
+    status,
+    payment,
+    payment_mode,
+    payment_done,
+    user: user.user_fk,
+    items: cartItem,
   });
-  newFoodMenuList
+  newOrder
     .save()
     .then((doc) => {
       res.status(200).json({
-        message: 'Food Menu is Added Successfully',
+        message: 'Orders is added',
         response: doc,
         statusCode: 200,
       });
     })
     .catch((err) => {
       res.status(500).json({
-        error: 'Error in Food Menu List in Hotel' + err,
+        error: 'Error in Adding Orders' + err,
         statusCode: 500,
       });
     });
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/', async (req, res) => {
   const token = req.headers.authorization;
   if (!token) {
     res.status(403).json({
@@ -58,30 +67,21 @@ router.get('/:id', async (req, res) => {
     });
   }
 
-  const hotelId = req.params.id;
-  const { category } = req.body;
-
-  FoodMenuList.find({ hotel: hotelId })
-    .populate('item')
+  Order.find({ user: user.user_fk })
     .exec()
     .then((doc) => {
-      const result = doc.filter(
-        (each) => each.item.category + '' === category + ''
-      );
       res.status(200).json({
-        message: 'List of Food Item',
-        response: result,
+        message: 'List of Orders',
+        response: doc,
         statusCode: 200,
       });
     })
     .catch((err) => {
-      res
-        .status(500)
-        .json({ error: 'Error in Food Menu ' + err, statusCode: 500 });
+      res.status(500).json({ error: 'Error in Order' + err, statusCode: 500 });
     });
 });
 
-router.delete('/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
   const token = req.headers.authorization;
   if (!token) {
     res.status(403).json({
@@ -99,20 +99,21 @@ router.delete('/:id', async (req, res) => {
   }
 
   const id = req.params.id;
+  const { status } = req.body;
 
-  FoodMenuList.deleteOne({ _id: id })
+  Order.update({ _id: id }, { status })
     .exec()
     .then((doc) => {
       res.status(200).json({
-        message: 'Food is deleted from Hotel Menu',
+        message: 'Order is Updated',
+        response: doc,
         statusCode: 200,
       });
     })
     .catch((err) => {
-      res.status(500).json({
-        error: 'Error in Delete Food Menu List' + err,
-        statusCode: 500,
-      });
+      res
+        .status(500)
+        .json({ error: 'Error in Update Order' + err, statusCode: 500 });
     });
 });
 

@@ -4,10 +4,10 @@ const Item = require('./fooditem');
 
 const ordersSchema = mongoose.Schema({
   date: { type: Date, default: new Date() },
-  order: { type: String, required: true },
+  orderId: { type: String, required: true },
   status: { type: String },
   payment: { type: Number, required: true },
-  item: [{ type: mongoose.Schema.Types.ObjectId, ref: Item, required: true }],
+  items: [{ type: mongoose.Schema.Types.ObjectId, ref: Item, required: true }],
   user: { type: mongoose.Schema.Types.ObjectId, ref: User, required: true },
   payment_mode: { type: String, required: true },
   payment_done: { type: Boolean, required: true },
