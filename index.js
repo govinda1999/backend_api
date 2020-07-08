@@ -4,6 +4,7 @@ const bodyparser = require('body-parser');
 const mongoose = require('mongoose');
 const db = 'mongodb://localhost/flutter';
 const port = 5000;
+
 const loginRoute = require('./routes/login');
 const registerRoute = require('./routes/register');
 const categoryRoute = require('./routes/category');
@@ -12,9 +13,11 @@ const favoriteRoute = require('./routes/favorite');
 const cartRoute = require('./routes/cart');
 const itemRoute = require('./routes/item');
 const itemCategoryRoute = require('./routes/Itemcategory');
-const hotelMenuListRoute = require('./routes/hotelmenulist');
+const menuListRoute = require('./routes/menulist');
 const orderRoute = require('./routes/order');
 const profileRoute = require('./routes/profile');
+const sanitizerCategoryRoute = require('./routes/sanitizercategory');
+const sanitizerOrderRoute = require('./routes/sanitizerorder');
 
 mongoose.connect(
   db,
@@ -39,9 +42,11 @@ app.use('/favorite', favoriteRoute);
 app.use('/cart', cartRoute);
 app.use('/item', itemRoute);
 app.use('/itemcategory', itemCategoryRoute);
-app.use('/hotelmenuitem', hotelMenuListRoute);
+app.use('/menuitem', menuListRoute);
 app.use('/order', orderRoute);
 app.user('/profile', profileRoute);
+app.use('/sanitizer', sanitizerCategoryRoute);
+app.use('/sanitizerorder', sanitizerOrderRoute);
 
 app.use((req, res, next) => {
   const err = new Error('Not Found');

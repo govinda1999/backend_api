@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const FoodMenuList = require('../model/hotelmenulist');
+const MenuList = require('../model/menulist');
 const Token = require('../model/authenticationToken');
 
 router.post('/', async (req, res) => {
@@ -20,11 +20,11 @@ router.post('/', async (req, res) => {
     });
   }
 
-  const newFoodMenuList = new FoodMenuList({
+  const newMenuList = new MenuList({
     item,
     hotel,
   });
-  newFoodMenuList
+  newMenuList
     .save()
     .then((doc) => {
       res.status(200).json({
@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
     })
     .catch((err) => {
       res.status(500).json({
-        error: 'Error in Food Menu List in Hotel' + err,
+        error: 'Error in Food Menu List in Store' + err,
         statusCode: 500,
       });
     });
@@ -61,7 +61,7 @@ router.get('/:id', async (req, res) => {
   const hotelId = req.params.id;
   const { category } = req.body;
 
-  FoodMenuList.find({ hotel: hotelId })
+  MenuList.find({ hotel: hotelId })
     .populate('item')
     .exec()
     .then((doc) => {
@@ -69,7 +69,7 @@ router.get('/:id', async (req, res) => {
         (each) => each.item.category + '' === category + ''
       );
       res.status(200).json({
-        message: 'List of Food Item',
+        message: 'List of Item in Store',
         response: result,
         statusCode: 200,
       });
@@ -77,7 +77,7 @@ router.get('/:id', async (req, res) => {
     .catch((err) => {
       res
         .status(500)
-        .json({ error: 'Error in Food Menu ' + err, statusCode: 500 });
+        .json({ error: 'Error in Item Menu ' + err, statusCode: 500 });
     });
 });
 
@@ -100,11 +100,11 @@ router.delete('/:id', async (req, res) => {
 
   const id = req.params.id;
 
-  FoodMenuList.deleteOne({ _id: id })
+  MenuList.deleteOne({ _id: id })
     .exec()
     .then((doc) => {
       res.status(200).json({
-        message: 'Food is deleted from Hotel Menu',
+        message: 'Food is deleted from Store Menu',
         statusCode: 200,
       });
     })
