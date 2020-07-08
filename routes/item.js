@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Food = require('../model/fooditem');
+const Item = require('../model/item');
 const Token = require('../model/authenticationToken');
 
 router.post('/', async (req, res) => {
@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
     });
   }
 
-  const newFood = new Food({
+  const newItem = new Item({
     name,
     imageUrl,
     rate,
@@ -29,17 +29,19 @@ router.post('/', async (req, res) => {
     price,
     category,
   });
-  newFood
+  newItem
     .save()
     .then((doc) => {
       res.status(200).json({
-        message: 'Food Added Successfully',
+        message: 'Item Added Successfully',
         response: doc,
         statusCode: 200,
       });
     })
     .catch((err) => {
-      res.status(500).json({ error: 'Error in Food' + err, statusCode: 500 });
+      res
+        .status(500)
+        .json({ error: 'Error in Adding Item' + err, statusCode: 500 });
     });
 });
 
@@ -60,18 +62,18 @@ router.get('/', async (req, res) => {
     });
   }
 
-  Food.find()
+  Item.find()
     .populate('category', ['_id', 'name', 'imageUrl'])
     .exec()
     .then((doc) => {
       res.status(200).json({
-        message: 'List of Food',
+        message: 'List of Item',
         response: doc,
         statusCode: 200,
       });
     })
     .catch((err) => {
-      res.status(500).json({ error: 'Error in Food' + err, statusCode: 500 });
+      res.status(500).json({ error: 'Error in Item' + err, statusCode: 500 });
     });
 });
 
@@ -94,18 +96,18 @@ router.delete('/:id', async (req, res) => {
 
   const id = req.params.id;
 
-  Food.deleteOne({ _id: id })
+  Item.deleteOne({ _id: id })
     .exec()
     .then((doc) => {
       res.status(200).json({
-        message: 'Food is deleted from System',
+        message: 'Item is deleted from System',
         statusCode: 200,
       });
     })
     .catch((err) => {
       res
         .status(500)
-        .json({ error: 'Error in Delete Food' + err, statusCode: 500 });
+        .json({ error: 'Error in Delete Item' + err, statusCode: 500 });
     });
 });
 
@@ -128,7 +130,7 @@ router.put('/:id', async (req, res) => {
 
   const id = req.params.id;
 
-  Food.updateOne({ _id: id }, req.body)
+  Item.updateOne({ _id: id }, req.body)
     .exec()
     .then((doc) => {
       res.status(200).json({

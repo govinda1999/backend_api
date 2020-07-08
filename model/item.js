@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-const FoodCategory = require('./foodcategory');
+const ItemCategory = require('./Itemcategory');
 
-const foodItemSchema = mongoose.Schema({
+const ItemSchema = mongoose.Schema({
   name: { type: String, required: true },
   imageUrl: { type: String, required: true },
   rate: { type: Number, required: true, default: 0 },
@@ -11,8 +11,8 @@ const foodItemSchema = mongoose.Schema({
   category: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: FoodCategory,
+    ref: ItemCategory,
   },
 });
 
-module.exports = mongoose.model('foods', foodItemSchema);
+module.exports = mongoose.model('items', ItemSchema);
