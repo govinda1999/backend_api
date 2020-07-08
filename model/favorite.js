@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Item = require('./fooditem');
+const Item = require('./item');
 const User = require('./userModel');
 
 const favoriteSchema = mongoose.Schema({

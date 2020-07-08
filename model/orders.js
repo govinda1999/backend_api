@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const User = require('./userModel');
-const Item = require('./fooditem');
+const Item = require('./item');
 
 const ordersSchema = mongoose.Schema({
   date: { type: Date, default: new Date() },
