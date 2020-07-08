@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const FoodCategory = require('../model/foodcategory');
+const ItemCategory = require('../model/Itemcategory');
 const Token = require('../model/authenticationToken');
 
 router.post('/', async (req, res) => {
-  const { name, imageUrl } = req.body;
+  const { name, imageUrl, category } = req.body;
   const token = req.headers.authorization;
   if (!token) {
     res.status(403).json({
@@ -20,27 +20,29 @@ router.post('/', async (req, res) => {
     });
   }
 
-  const newFoodCategory = new FoodCategory({
+  const newItemCategory = new ItemCategory({
     name,
     imageUrl,
+    category,
   });
-  newFoodCategory
+  newItemCategory
     .save()
     .then((doc) => {
       res.status(200).json({
-        message: 'Food Category Added Successfully',
+        message: 'Item Category Added Successfully',
         response: doc,
         statusCode: 200,
       });
     })
     .catch((err) => {
-      res
-        .status(500)
-        .json({ error: 'Error in Food Category' + err, statusCode: 500 });
+      res.status(500).json({
+        error: 'Error in Adding Item Category' + err,
+        statusCode: 500,
+      });
     });
 });
 
-router.get('/', async (req, res) => {
+router.get('/:id', async (req, res) => {
   const token = req.headers.authorization;
   if (!token) {
     res.status(403).json({
@@ -57,11 +59,13 @@ router.get('/', async (req, res) => {
     });
   }
 
-  FoodCategory.find()
+  const id = req.params.id;
+
+  ItemCategory.find({ category: id })
     .exec()
     .then((doc) => {
       res.status(200).json({
-        message: 'List of Food Category',
+        message: 'List of Item Category',
         response: doc,
         statusCode: 200,
       });
@@ -69,7 +73,7 @@ router.get('/', async (req, res) => {
     .catch((err) => {
       res
         .status(500)
-        .json({ error: 'Error in Food Category' + err, statusCode: 500 });
+        .json({ error: 'Error in Item Category' + err, statusCode: 500 });
     });
 });
 
@@ -92,21 +96,19 @@ router.delete('/:id', async (req, res) => {
 
   const id = req.params.id;
 
-  FoodCategory.deleteOne({ _id: id })
+  ItemCategory.deleteOne({ _id: id })
     .exec()
     .then((doc) => {
       res.status(200).json({
-        message: 'Food Category is deleted from System',
+        message: 'Item Category is deleted from System',
         statusCode: 200,
       });
     })
     .catch((err) => {
-      res
-        .status(500)
-        .json({
-          error: 'Error in Delete  Food Category' + err,
-          statusCode: 500,
-        });
+      res.status(500).json({
+        error: 'Error in Delete Item Category' + err,
+        statusCode: 500,
+      });
     });
 });
 
