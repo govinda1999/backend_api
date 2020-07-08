@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Token = require('../model/authenticationToken');
-const Hotel = require('../model/hotel');
+const Store = require('../model/store');
 
 router.post('/', async (req, res) => {
   const {
@@ -12,6 +12,7 @@ router.post('/', async (req, res) => {
     rate,
     address,
     foodMenu,
+    type,
   } = req.body;
   const token = req.headers.authorization;
   if (!token) {
@@ -28,7 +29,7 @@ router.post('/', async (req, res) => {
     });
   }
 
-  const newHotel = new Hotel({
+  const newStore = new Store({
     name,
     imageUrl,
     latitude,
@@ -36,12 +37,13 @@ router.post('/', async (req, res) => {
     rate,
     address,
     foodMenu,
+    type,
   });
-  newHotel
+  newStore
     .save()
     .then((doc) => {
       res.status(200).json({
-        message: 'Hotel Added Successfully',
+        message: 'Store Added Successfully',
         response: doc,
         statusCode: 200,
       });
@@ -49,7 +51,7 @@ router.post('/', async (req, res) => {
     .catch((err) => {
       res
         .status(500)
-        .json({ error: 'Error in Adding Hotel' + err, statusCode: 500 });
+        .json({ error: 'Error in Adding Store' + err, statusCode: 500 });
     });
 });
 
@@ -70,17 +72,21 @@ router.get('/', async (req, res) => {
     });
   }
 
-  Hotel.find()
+  const { id } = req.body;
+
+  Store.find({ type: id })
     .exec()
     .then((doc) => {
       res.status(200).json({
-        message: 'List of Hotel',
+        message: 'List of Store',
         response: doc,
         statusCode: 200,
       });
     })
     .catch((err) => {
-      res.status(500).json({ error: 'Error in Hotel' + err, statusCode: 500 });
+      res
+        .status(500)
+        .json({ error: 'Error in Getting Store' + err, statusCode: 500 });
     });
 });
 
@@ -103,18 +109,18 @@ router.get('/:id', async (req, res) => {
 
   const id = req.params.id;
 
-  Hotel.findById(id)
+  Store.findById(id)
     .populate('foodMenu', ['_id', 'name', 'imageUrl'])
     .exec()
     .then((doc) => {
       res.status(200).json({
-        message: 'Hotel',
+        message: 'Store',
         response: doc,
         statusCode: 200,
       });
     })
     .catch((err) => {
-      res.status(500).json({ error: 'Error in Hotel' + err, statusCode: 500 });
+      res.status(500).json({ error: 'Error in Store' + err, statusCode: 500 });
     });
 });
 
