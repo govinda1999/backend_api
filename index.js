@@ -34,6 +34,7 @@ mongoose.connect(
 
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
+app.use('/uploads', express.static('uploads'));
 
 app.use('/auth/login', loginRoute);
 app.use('/auth/register', registerRoute);
@@ -45,7 +46,7 @@ app.use('/item', itemRoute);
 app.use('/itemcategory', itemCategoryRoute);
 app.use('/menuitem', menuListRoute);
 app.use('/order', orderRoute);
-app.user('/profile', profileRoute);
+app.use('/profile', profileRoute);
 app.use('/sanitizer', sanitizerCategoryRoute);
 app.use('/sanitizerorder', sanitizerOrderRoute);
 app.use('/medical', medicalStoreRoute);
