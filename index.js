@@ -20,6 +20,7 @@ const sanitizerCategoryRoute = require('./routes/sanitizercategory');
 const sanitizerOrderRoute = require('./routes/sanitizerorder');
 const medicalStoreRoute = require('./routes/medicalStore');
 const medicineOrderRoute = require('./routes/medicineOrder');
+const salonCategoryRoute = require('./routes/salonCategory');
 
 mongoose.connect(
   db,
@@ -52,6 +53,7 @@ app.use('/sanitizer', sanitizerCategoryRoute);
 app.use('/sanitizerorder', sanitizerOrderRoute);
 app.use('/medical', medicalStoreRoute);
 app.use('/medicine', medicineOrderRoute);
+app.use('/saloncategory', salonCategoryRoute);
 
 app.use((req, res, next) => {
   const err = new Error('Not Found');
