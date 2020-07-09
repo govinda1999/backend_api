@@ -8,7 +8,7 @@ const salonStoreSchema = mongoose.Schema({
   longitude: { type: String, required: true },
   rate: { type: Number, required: true, default: 0.0 },
   address: { type: String, required: true },
-  type: {
+  category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: SalonCategory,
     required: true,
