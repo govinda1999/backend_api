@@ -7,6 +7,7 @@ const port = 5000;
 
 const loginRoute = require('./routes/login');
 const registerRoute = require('./routes/register');
+const profileRoute = require('./routes/profile');
 const categoryRoute = require('./routes/category');
 const storeRoute = require('./routes/store');
 const favoriteRoute = require('./routes/favorite');
@@ -15,7 +16,6 @@ const itemRoute = require('./routes/item');
 const itemCategoryRoute = require('./routes/Itemcategory');
 const menuListRoute = require('./routes/menulist');
 const orderRoute = require('./routes/order');
-const profileRoute = require('./routes/profile');
 const sanitizerCategoryRoute = require('./routes/sanitizercategory');
 const sanitizerOrderRoute = require('./routes/sanitizerorder');
 const medicalStoreRoute = require('./routes/medicalStore');
@@ -23,6 +23,7 @@ const medicineOrderRoute = require('./routes/medicineOrder');
 const salonCategoryRoute = require('./routes/salonCategory');
 const salonStoreRoute = require('./routes/salonStore');
 const salonMenuRoute = require('./routes/salonMenu');
+const salonCartRoute = require('./routes/salonCart');
 
 mongoose.connect(
   db,
@@ -58,6 +59,7 @@ app.use('/medicine', medicineOrderRoute);
 app.use('/saloncategory', salonCategoryRoute);
 app.use('/salonstore', salonStoreRoute);
 app.use('/salonmenu', salonMenuRoute);
+app.use('/saloncart', salonCartRoute);
 
 app.use((req, res, next) => {
   const err = new Error('Not Found');
